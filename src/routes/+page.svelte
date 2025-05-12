@@ -2,8 +2,11 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import CircleArrowRight from '~icons/lucide/circle-arrow-right';
+	import Globe from '~icons/lucide/globe';
 
-	let currentYear = new Date().getFullYear();
+	const currentYear = new Date().getFullYear();
+
+	let searchWeb = $state(true);
 
 	const phrases = [
 		'Ask anything.',
@@ -39,16 +42,25 @@
 			</h2>
 		{/key}
 
-		<div class="flex flex-row items-center">
+		<div class="flex flex-row items-center rounded-xl border-2 border-blue-950 p-3">
 			<input
 				placeholder="Type here..."
 				type="text"
-				class="w-full rounded-xl border-2 border-blue-950 p-3 pr-11 outline-none"
+				class="w-full border-none outline-none"
 				name="prompt"
 				autocomplete="off"
 			/>
+
+			<button onclick={() => (searchWeb = !searchWeb)}>
+				<Globe
+					class="ml-2 {searchWeb ? 'text-blue-800' : 'text-gray-500'}"
+					width="1.5em"
+					height="1.5em"
+				/>
+			</button>
+
 			<button>
-				<CircleArrowRight class="relative -left-10 text-blue-800" width="1.5em" height="1.5em" />
+				<CircleArrowRight class="ml-2 text-blue-800" width="1.5em" height="1.5em" />
 			</button>
 		</div>
 	</div>
