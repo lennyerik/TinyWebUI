@@ -12,10 +12,13 @@ export async function embedStrings(...strings: string[]): Promise<Float32Array[]
 		})
 	});
 
-	const json = await response.json();
-	if (json.embeddings && json.embeddings.length === strings.length) {
-		return json.embeddings.map((embedding: number[]) => new Float32Array(embedding));
+	try {
+		const json = await response.json();
+		if (json.embeddings && json.embeddings.length === strings.length) {
+			return json.embeddings.map((embedding: number[]) => new Float32Array(embedding));
+		}
+		throw `Received invalid json data ${json} while trying to embed values`;
+	} catch (e) {
+		throw `Error decoding json while trying to embed values: ${e}`;
 	}
-
-	throw 'Received invalid json data while trying to embed values';
 }
